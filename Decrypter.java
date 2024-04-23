@@ -7,7 +7,7 @@ public class Decrypter {
     }
 
     public void decryptInput() {
-        for (int i = 0; i < 25; i++) { // This for loop will iterate through all possible keys
+        for (int i = 0; i < 26; i++) { // This for loop will iterate through all possible keys
             System.out.println(decryptSingleMessage(i)); // Print out each attempt
         }
     }
@@ -22,15 +22,27 @@ public class Decrypter {
             return "";
         }
 
-        for (int i = 0; i < input.length()-1; i++) { // This will iterate through all possible characters in the string
+        for (int i = 0; i < input.length(); i++) { // This will iterate through all possible characters in the string
             if (upperAlphabet.indexOf(input.charAt(i)) == -1 && lowerAlphabet.indexOf(input.charAt(i)) == -1) { //If the character is not a letter
                 decrypted += input.charAt(i); // Add the character directly to the array without c
             } else if (upperAlphabet.indexOf(input.charAt(i)) != -1) {
-                int index = (upperAlphabet.indexOf(input.charAt(i)) - k) % 26;
-                decrypted += upperAlphabet.substring(index, index + 1);
+                char c = input.charAt(i);
+                int alphabetIndex = upperAlphabet.indexOf(c);
+                int shiftedIndex = (alphabetIndex - k);
+                while (shiftedIndex < 0) {
+                    shiftedIndex += 26;
+                }
+                String newC = upperAlphabet.substring(shiftedIndex, shiftedIndex + 1);
+                decrypted += newC;
             } else {
-                int index = (lowerAlphabet.indexOf(input.charAt(i)) - k) % 26;
-                decrypted += lowerAlphabet.substring(index, index + 1);
+                char c = input.charAt(i);
+                int alphabetIndex = lowerAlphabet.indexOf(c);
+                int shiftedIndex = (alphabetIndex - k) % 26;
+                while (shiftedIndex < 0) {
+                    shiftedIndex += 26;
+                }
+                String newC = lowerAlphabet.substring(shiftedIndex, shiftedIndex + 1);
+                decrypted += newC;
             }
             
         }
